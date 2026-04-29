@@ -12,6 +12,7 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 const swaggerDoc = YAML.load(readFileSync("./docs/openapi.yaml", "utf8"));
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
