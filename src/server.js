@@ -7,13 +7,19 @@ import weaponRoutes from "./routes/weaponroutes.js";
 import armorRoutes from "./routes/armorroutes.js";
 import cartRoutes from "./routes/cartroutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
 app.use(express.json());
 
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
-const swaggerDoc = YAML.load(readFileSync("./doc/openapi.yaml", "utf8"));
+const swaggerDoc = YAML.load(readFileSync(join(__dirname, "./doc/openapi.yaml"), "utf8"));
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use("/", authRoutes);
